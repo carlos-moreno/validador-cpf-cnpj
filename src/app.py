@@ -25,3 +25,6 @@ def validador():
     message = messages[None] if not cpf_cnpj else messages[result]
 
     return render_template('validador.html.j2', message=message)
+
+if __name__ == '__main__':
+    app.run()
