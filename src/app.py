@@ -15,9 +15,13 @@ def index():
 def validador():
     cpf_cnpj = request.form['cpf_cnpj']
     result = cnpj_or_cpf_is_valid(cpf_cnpj)
-    if result:
-        message = f"O CPF {cpf_cnpj} é válido!"
-    else:
-        message = f"O CPF/CNPJ {cpf_cnpj} é inválido."
+
+    messages = {
+        None: 'Informe um valor a ser verificado!',
+        True: f'{cpf_cnpj} é válido!',
+        False: f'{cpf_cnpj} é inválido.',
+    }
+
+    message = messages[None] if not cpf_cnpj else messages[result]
 
     return render_template('validador.html.j2', message=message)
