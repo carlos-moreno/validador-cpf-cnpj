@@ -1,0 +1,14 @@
+{% extends "base.html.j2" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Validador de CPF/CNPJ</h1>
+
+    <div class="jumbotron mt-4 p-4 bg-light">
+        <h2 class="text-center">{{ message }}</h2>
+        <form action="/">
+            <button type="submit" class="btn btn-primary mt-3">Voltar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

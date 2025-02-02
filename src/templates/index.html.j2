@@ -1,0 +1,17 @@
+{% extends "base.html.j2" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Validador de CPF/CNPJ</h1>
+
+    <div class="jumbotron mt-4 p-4 bg-light">
+        <form action="/validador" method="post">
+            <div class="form-group">
+                <label for="cpf_cnpj" class="form-label">CPF/CNPJ:</label>
+                <input type="text" class="form-control" id="cpf_cnpj" name="cpf_cnpj" placeholder="Digite o CPF ou CNPJ a ser verificado">
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Validar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
