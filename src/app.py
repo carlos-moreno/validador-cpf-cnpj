@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 from pycnpj_cpf.core import cnpj_or_cpf_is_valid
+from .utils import generate_cpf, generate_cnpj
 
 app = Flask(__name__, template_folder='templates')
 bootstrap = Bootstrap(app)
@@ -25,6 +26,17 @@ def validador():
     message = messages[None] if not cpf_cnpj else messages[result]
 
     return render_template('validador.html.j2', message=message)
+
+@app.route('/gerador', methods=['POST'])
+def gerador():
+    tipo = request.form['tipo']
+    messages = {
+        'cpf': f'{generate_cpf()}',
+        'cnpj': f'{generate_cnpj()}',
+    }
+
+    return render_template('gerador.html.j2', message=messages.get(tipo))
+
 
 if __name__ == '__main__':
     app.run()
