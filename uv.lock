@@ -317,16 +317,16 @@ wheels = [
 
 [[package]]
 name = "pycnpj-cpf"
-version = "0.2.0"
+version = "0.2.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
     { name = "rich" },
     { name = "rich-click" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/97/a0/0f46f41afe0b83a49b01372ec4ef9d11d9401c270e3fb53e4bbebd9b4732/pycnpj_cpf-0.2.0.tar.gz", hash = "sha256:ee5beb7d7d45bf8315af3a822956aed88dcb92ff2c6efabe828358fb676cf667", size = 60822 }
+sdist = { url = "https://files.pythonhosted.org/packages/6b/56/17fc32785779ac170664bff97e015b4c3bc3150c5c49edb8e337f707fa42/pycnpj_cpf-0.2.2.tar.gz", hash = "sha256:970d4ea2be4dc5bb7ad9dbce614051268396c94c717b3300db535f6c6be941eb", size = 61040 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e4/49/198a086a6e9803fcce509b5b13c31febda0e0f2ff8cf155b28d1e9d1c19c/pycnpj_cpf-0.2.0-py3-none-any.whl", hash = "sha256:532b24713a623038b51974bdae925e758c709fa4cb9aca456d020c742ff86142", size = 28646 },
+    { url = "https://files.pythonhosted.org/packages/24/fb/d8ffba4f93b07416dab41932f5e5491fa8a3c9046e9609f3c4eea838f325/pycnpj_cpf-0.2.2-py3-none-any.whl", hash = "sha256:8ba6659cfbfb4775418851a6f489e13398d78ad606ca3f33bdf64ec2919d5426", size = 28710 },
 ]
 
 [[package]]
@@ -563,7 +563,7 @@ dev = [
 requires-dist = [
     { name = "flask", specifier = ">=3.1.0" },
     { name = "flask-bootstrap", specifier = ">=3.3.7.1" },
-    { name = "pycnpj-cpf", specifier = ">=0.2.0" },
+    { name = "pycnpj-cpf", specifier = ">=0.2.2" },
 ]
 
 [package.metadata.requires-dev]

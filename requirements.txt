@@ -27,7 +27,7 @@ markupsafe==3.0.2
     #   werkzeug
 mdurl==0.1.2
     # via markdown-it-py
-pycnpj-cpf==0.2.0
+pycnpj-cpf==0.2.2
     # via validador-cpf-cnpj (pyproject.toml)
 pygments==2.19.1
     # via rich
