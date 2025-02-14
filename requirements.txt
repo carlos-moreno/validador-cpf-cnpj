@@ -27,7 +27,7 @@ markupsafe==3.0.2
     #   werkzeug
 mdurl==0.1.2
     # via markdown-it-py
-pycnpj-cpf==0.2.2
+pycnpj-cpf==0.2.3
     # via validador-cpf-cnpj (pyproject.toml)
 pygments==2.19.1
     # via rich
@@ -38,7 +38,9 @@ rich==13.9.4
 rich-click==1.8.5
     # via pycnpj-cpf
 typing-extensions==4.12.2
-    # via rich-click
+    # via
+    #   rich
+    #   rich-click
 visitor==0.1.3
     # via flask-bootstrap
 werkzeug==3.1.3

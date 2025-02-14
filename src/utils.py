@@ -73,7 +73,7 @@ def generate_cnpj():
     base_digits = [
         choice(string.digits + string.ascii_uppercase) for _ in range(12)
     ]
-    base_digits_int = [int(DIGITS.get(d)) for d in base_digits]
+    base_digits_int = [ord(d) - 48 for d in base_digits]
     first_digit = calculate_digit(base_digits_int, CNPJ['first_digit'])
     second_digit = calculate_digit(
         base_digits_int + [first_digit], CNPJ['second_digit']

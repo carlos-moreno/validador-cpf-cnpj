@@ -11,7 +11,7 @@ license = {file = "LICENSE"}
 dependencies = [
     "flask>=3.1.0",
     "flask-bootstrap>=3.3.7.1",
-    "pycnpj-cpf>=0.2.2",
+    "pycnpj-cpf>=0.2.3",
 ]
 
 [dependency-groups]
