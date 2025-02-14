@@ -2,44 +2,6 @@ import string
 from random import choice, randint
 
 TWO = 2
-DIGITS = {
-    '0': 0,
-    '1': 1,
-    '2': 2,
-    '3': 3,
-    '4': 4,
-    '5': 5,
-    '6': 6,
-    '7': 7,
-    '8': 8,
-    '9': 9,
-    'A': 17,
-    'B': 18,
-    'C': 19,
-    'D': 20,
-    'E': 21,
-    'F': 22,
-    'G': 23,
-    'H': 24,
-    'I': 25,
-    'J': 26,
-    'K': 27,
-    'L': 28,
-    'M': 29,
-    'N': 30,
-    'O': 31,
-    'P': 32,
-    'Q': 33,
-    'R': 34,
-    'S': 35,
-    'T': 36,
-    'U': 37,
-    'V': 38,
-    'X': 39,
-    'W': 40,
-    'Y': 41,
-    'Z': 42,
-}
 
 CPF = {
     'first_digit': [10, 9, 8, 7, 6, 5, 4, 3, 2],
@@ -53,12 +15,45 @@ CNPJ = {
 
 
 def calculate_digit(digits, weights):
+    """Calculates a check digit based on a list of digits and their
+    corresponding weights.
+
+    This function multiplies each digit by its corresponding weight, sums
+    the results, and then calculates the check digit based on the remainder
+    of the division by 11.
+    If the remainder is less than a predefined value (TWO), it returns 0;
+    otherwise, it returns the complement to 11.
+
+    Parameters:
+        digits (list of int)
+            List of digits to be used in the calculation.
+        weights (list of int)
+            List of weights corresponding to the digits.
+
+    Returns:
+        int:
+            The calculated check digit (0 or the complement to 11).
+    """
+
     total_sum = sum([d * w for d, w in zip(digits, weights)])
     remainder = total_sum % 11
     return 0 if remainder < TWO else 11 - remainder
 
 
 def generate_cpf():
+    """Generates a random CPF number (Brazilian individual taxpayer registry
+    number).
+
+    This function generates the first nine digits of a CPF randomly,
+    calculates the first and second check digits using the `calculate_digit`
+    function, and then formats the CPF number according to the standard
+    Brazilian format: NNN.NNN.NNN-NN.
+
+    Returns:
+        str:
+            The generated CPF number in the format 'NNN.NNN.NNN-NN'.
+    """
+
     base_digits = [randint(0, 9) for _ in range(9)]
     first_digit = calculate_digit(base_digits, CPF['first_digit'])
     second_digit = calculate_digit(
@@ -70,6 +65,19 @@ def generate_cpf():
 
 
 def generate_cnpj():
+    """Generates a random CNPJ number (Brazilian company taxpayer registry
+    number).
+
+    This function generates the first twelve digits of a CNPJ randomly,
+    calculates the first and second check digits using the `calculate_digit`
+    function, and then formats the CNPJ number according to the standard
+    Brazilian format: SS.SSS.SSS/SSSS-NN.
+
+    Returns:
+        str:
+            The generated CNPJ number in the format 'SS.SSS.SSS/SSSS-NN'.
+    """
+
     base_digits = [
         choice(string.digits + string.ascii_uppercase) for _ in range(12)
     ]
