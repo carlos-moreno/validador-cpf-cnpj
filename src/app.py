@@ -37,7 +37,9 @@ def gerador():
         'cnpj': f'{generate_cnpj()}',
     }
 
-    return render_template('gerador.html.j2', message=messages.get(tipo))
+    return render_template(
+        'gerador.html.j2', message=messages.get(tipo), type=tipo
+    )
 
 
 if __name__ == '__main__':

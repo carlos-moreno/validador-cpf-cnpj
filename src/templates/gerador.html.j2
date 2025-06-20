@@ -6,9 +6,15 @@
 
     <div class="jumbotron mt-4 p-4 bg-light">
         <h2 class="text-center">{{ message }}</h2>
-        <form action="/">
-            <button type="submit" class="btn btn-primary mt-3">Voltar</button>
-        </form>
+        <div class="text-center mt-3">
+            <form action="/" style="display: inline-block; margin-right: 10px;">
+                <button type="submit" class="btn btn-primary">Voltar</button>
+            </form>
+            <form method="post" action="/gerador" style="display: inline-block;">
+                <input type="hidden" id="tipo" name="tipo" value="{{ type }}">
+                <button type="submit" class="btn btn-primary">Gerar novo {{ type|upper }}</button>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}
