@@ -3,13 +3,16 @@
 {% block content %}
 <div class="container mt-5">
     <h1 class="text-center">Gerador de CPF/CNPJ</h1>
-
     <div class="jumbotron mt-4 p-4 bg-light">
-        <h2 class="text-center">{{ message }}</h2>
+        <div class="d-flex justify-content-center align-items-center mb-3" style="gap: 10px;">
+            <h2 class="text-center mb-0" id="mensagem-gerada">{{ message }}</h2>
+        </div>
+        <div id="feedback" class="text text-center" style="display:none;">Conteúdo copiado!</div>
         <div class="text-center mt-3">
-            <form action="/" style="display: inline-block; margin-right: 10px;">
+            <form action="/" style="display: inline-block; margin-right: 5px;">
                 <button type="submit" class="btn btn-primary">Voltar</button>
             </form>
+            <button type="button" class="btn btn-primary" style="margin-right: 5px;" onclick="copiarMensagem()" title="Copiar">Copiar</button>
             <form method="post" action="/gerador" style="display: inline-block;">
                 <input type="hidden" id="tipo" name="tipo" value="{{ type }}">
                 <button type="submit" class="btn btn-primary">Gerar novo {{ type|upper }}</button>
@@ -17,4 +20,14 @@
         </div>
     </div>
 </div>
+<script>
+function copiarMensagem() {
+    const texto = document.getElementById('mensagem-gerada').innerText;
+    navigator.clipboard.writeText(texto).then(function() {
+        const feedback = document.getElementById('feedback');
+        feedback.style.display = 'block';
+        setTimeout(() => feedback.style.display = 'none', 1500);
+    });
+}
+</script>
 {% endblock %}
