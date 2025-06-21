@@ -2,14 +2,13 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="text-center">Validador e Gerador de CPF/CNPJ</h1>
-
     <div class="row align-items-start">
         <div class="col-md-6 align-items-start">
             <div class="jumbotron mt-4">
+                <h3 class="text-center">Validador</h3>
                 <form action="/validador" method="post">
                     <div class="form-group">
-                        <label for="cpf_cnpj" class="form-label">CPF/CNPJ:</label>
+                        <label for="cpf_cnpj" class="form-label">Informe o valor:</label>
                         <input type="text" class="form-control" id="cpf_cnpj" name="cpf_cnpj" placeholder="Digite o CPF ou CNPJ a ser verificado">
                     </div>
                     <button type="submit" class="btn btn-primary mt-3">Validar</button>
@@ -19,8 +18,9 @@
         <div class="col-md-6 align-items-start">
             <div class="jumbotron mt-4">
                 <form action="/gerador" method="post">
+                    <h3 class="text-center">Gerador</h3>
                     <div class="form-group">
-                        <label for="tipo">Escolha CPF ou CNPJ:</label>
+                        <label for="tipo">Escolha uma das opções abaixo:</label>
                         <select class="form-control" id="tipo" name="tipo">
                             <option value="cpf">CPF</option>
                             <option value="cnpj">CNPJ</option>
