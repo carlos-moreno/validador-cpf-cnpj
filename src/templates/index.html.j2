@@ -1,33 +1,59 @@
 {% extends "base.html.j2" %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row align-items-start">
-        <div class="col-md-6 align-items-start">
-            <div class="jumbotron mt-4">
-                <h3 class="text-center">Validador</h3>
-                <form action="/validador" method="post">
-                    <div class="form-group">
-                        <label for="cpf_cnpj" class="form-label">Informe o valor:</label>
-                        <input type="text" class="form-control" id="cpf_cnpj" name="cpf_cnpj" placeholder="Digite o CPF ou CNPJ a ser verificado">
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3">Validar</button>
-                </form>
+<div class="row g-4 justify-content-center">
+    <!-- Coluna Validador -->
+    <div class="col-md-5">
+        <div class="card h-100 p-4">
+            <div class="d-flex align-items-center mb-4">
+                <div class="bg-primary bg-opacity-10 p-3 rounded-3 me-3">
+                    <i class="bi bi-shield-check text-primary fs-4"></i>
+                </div>
+                <h4 class="mb-0 fw-bold">Validador</h4>
+            </div>
+            
+            <form hx-post="/validador" hx-target="#resultado-validador">
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">DIGITE O NÚMERO</label>
+                    <input type="text" class="form-control" id="cpf_cnpj" name="cpf_cnpj" 
+                           placeholder="000.000.000-00" autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                    Validar Agora
+                </button>
+            </form>
+            
+            <div id="resultado-validador" class="mt-4">
+                <!-- Resultado aparece aqui sem reload -->
             </div>
         </div>
-        <div class="col-md-6 align-items-start">
-            <div class="jumbotron mt-4">
-                <form action="/gerador" method="post">
-                    <h3 class="text-center">Gerador</h3>
-                    <div class="form-group">
-                        <label for="tipo">Escolha uma das opções abaixo:</label>
-                        <select class="form-control" id="tipo" name="tipo">
-                            <option value="cpf">CPF</option>
-                            <option value="cnpj">CNPJ</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3">Gerar</button>
-                </form>
+    </div>
+
+    <!-- Coluna Gerador -->
+    <div class="col-md-5">
+        <div class="card h-100 p-4">
+            <div class="d-flex align-items-center mb-4">
+                <div class="bg-success bg-opacity-10 p-3 rounded-3 me-3">
+                    <i class="bi bi-plus-square text-success fs-4"></i>
+                </div>
+                <h4 class="mb-0 fw-bold">Gerador</h4>
+            </div>
+
+            <form hx-post="/gerador" hx-target="#resultado-gerador">
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">TIPO DE DOCUMENTO</label>
+                    <select class="form-select form-control" name="tipo">
+                        <option value="cpf">CPF (Pessoa Física)</option>
+                        <option value="cnpj">CNPJ (Empresa)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-dark w-100">
+                    Gerar Novo Número
+                </button>
+            </form>
+
+            <div id="resultado-gerador" class="mt-4">
+                <!-- Resultado aparece aqui -->
             </div>
         </div>
     </div>

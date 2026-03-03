@@ -1,0 +1,20 @@
+<div class="p-3 border rounded-3 bg-light animate__animated animate__fadeIn">
+    <div class="text-muted small mb-1">{{ tipo|upper }} Gerado:</div>
+    <div class="d-flex align-items-center justify-content-between">
+        <code class="fs-4 fw-bold text-dark" id="num-gerado">{{ valor }}</code>
+        <button class="btn btn-sm btn-outline-secondary" onclick="copyValue()">
+            <i class="bi bi-clipboard"></i>
+        </button>
+    </div>
+    <div id="copy-feedback" class="small text-success mt-1" style="display:none;">Copiado!</div>
+</div>
+
+<script>
+function copyValue() {
+    const text = document.getElementById('num-gerado').innerText;
+    navigator.clipboard.writeText(text);
+    const feedback = document.getElementById('copy-feedback');
+    feedback.style.display = 'block';
+    setTimeout(() => feedback.style.display = 'none', 2000);
+}
+</script>

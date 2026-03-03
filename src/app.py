@@ -1,84 +1,48 @@
+from datetime import datetime, timezone
+
 from flask import Flask, render_template, request
-from flask_bootstrap import Bootstrap
 from pycnpj_cpf.core import cnpj_or_cpf_is_valid
 
 from .utils import generate_cnpj, generate_cpf
 
 app = Flask(__name__, template_folder='templates')
-bootstrap = Bootstrap(app)
 
 
 @app.route('/')
 def index():
-    """Renderiza a página inicial da aplicação."""
     return render_template('index.html.j2')
 
 
 @app.route('/validador', methods=['POST'])
 def validador():
-    """Processa a validação de um CPF ou CNPJ enviado via formulário.
+    cpf_cnpj = request.form.get('cpf_cnpj', '').strip()
+    if not cpf_cnpj:
+        return '<div class="alert alert-warning">Informe um valor!</div>'
 
-    Esta view é acionada por uma requisição POST e espera receber um
-    campo 'cpf_cnpj' no corpo do formulário. A função verifica se o
-    valor recebido é um CPF ou CNPJ válido e renderiza uma página de
-    resposta com uma mensagem indicando o resultado da validação.
+    is_valid = cnpj_or_cpf_is_valid(cpf_cnpj)
+    color = 'success' if is_valid else 'danger'
+    status = 'válido' if is_valid else 'inválido'
+    icon = 'check-circle' if is_valid else 'exclamation-triangle'
 
-    O template 'validador.html.j2' é utilizado para exibir a mensagem
-    ao usuário.
-
-    Form Data:
-        cpf_cnpj (str): O número de CPF ou CNPJ a ser validado.
-
-    Returns:
-        werkzeug.wrappers.Response: Uma resposta HTTP contendo a página
-        HTML renderizada com a mensagem de validação.
+    return f"""
+    <div class="alert alert-{color} d-flex align-items-center animate__animated animate__fadeIn">
+        <i class="bi bi-{icon} me-2"></i>
+        <div>{cpf_cnpj} é <strong>{status}</strong>!</div>
+    </div>
     """
-    cpf_cnpj = request.form['cpf_cnpj']
-    result = cnpj_or_cpf_is_valid(cpf_cnpj)
-
-    messages = {
-        None: 'Informe um valor a ser verificado!',
-        True: f'{cpf_cnpj} é válido!',
-        False: f'{cpf_cnpj} é inválido.',
-    }
-
-    message = messages[None] if not cpf_cnpj else messages[result]
-
-    return render_template('validador.html.j2', message=message)
 
 
 @app.route('/gerador', methods=['POST'])
 def gerador():
-    """Gera um número de CPF ou CNPJ com base na seleção do usuário.
+    tipo = request.form.get('tipo')
+    valor = generate_cpf() if tipo == 'cpf' else generate_cnpj()
 
-    Esta view é acionada por uma requisição POST e espera um campo 'tipo'
-    no formulário para determinar qual documento gerar ('cpf' ou 'cnpj').
-    Após chamar a função geradora apropriada, o número resultante é
-    renderizado no template 'gerador.html.j2'.
+    return render_template('partials/resultado_gerador.html.j2', valor=valor, tipo=tipo)
 
-    Form Data:
-        tipo (str): O tipo de documento a ser gerado.
-                    Valores esperados são 'cpf' ou 'cnpj'.
 
-    Contexto do Template:
-        message (str or None): O número do CPF ou CNPJ gerado como uma string.
-                               Será `None` se o tipo for inválido.
-        type (str): O valor original do campo 'tipo' enviado no formulário,
-                    usado para manter o estado da seleção na página.
-
-    Returns:
-        werkzeug.wrappers.Response: Uma resposta HTTP contendo a página HTML
-        'gerador.html.j2' renderizada com o número gerado.
-    """
-    tipo = request.form['tipo']
-    messages = {
-        'cpf': f'{generate_cpf()}',
-        'cnpj': f'{generate_cnpj()}',
-    }
-
-    return render_template(
-        'gerador.html.j2', message=messages.get(tipo), type=tipo
-    )
+@app.context_processor
+def inject_now():
+    return {'now': datetime.now(timezone.utc)}
 
 
 if __name__ == '__main__':
