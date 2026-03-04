@@ -34,9 +34,13 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="container text-center mt-5 mb-4 text-muted small">
-    &copy; {{ now.year }} Gerador & Validador de Documentos
-</footer>
+    
+    <footer class="footer mt-auto py-4 bg-light shadow-sm">
+        <div class="container text-center">
+            <div class="mb-1 fw-bold">Gerador & Validador de Documentos</div>
+            <div class="text-muted">&copy; {{ now.year }} • Desenvolvido por <strong><em>Carlos Moreno</em></strong></div>
+        </div>
+    </footer>
 
     <!-- Mask Input Script -->
     <script src="https://unpkg.com/imask"></script>
