@@ -1,33 +1,86 @@
 {% extends "base.html.j2" %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center">{{ type|upper }} Gerado</h1>
-    <div class="jumbotron mt-4 p-4 bg-light">
-        <div class="d-flex justify-content-center align-items-center mb-3" style="gap: 10px;">
-            <h2 class="text-center mb-0" id="mensagem-gerada">{{ message }}</h2>
-        </div>
-        <div id="feedback" class="text text-center" style="display:none;">Conteúdo copiado!</div>
-        <div class="text-center mt-3">
-            <form action="/" style="display: inline-block; margin-right: 5px;">
-                <button type="submit" class="btn btn-primary">Voltar</button>
-            </form>
-            <button type="button" class="btn btn-primary" style="margin-right: 5px;" onclick="copiarMensagem()" title="Copiar">Copiar</button>
-            <form method="post" action="/gerador" style="display: inline-block;">
-                <input type="hidden" id="tipo" name="tipo" value="{{ type }}">
-                <button type="submit" class="btn btn-primary">Gerar novo {{ type|upper }}</button>
-            </form>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card p-4 p-md-5 text-center animate__animated animate__fadeIn">
+                    
+                    <h1 class="h3 mb-4 fw-bold text-secondary">{{ type|upper }} Gerado</h1>
+
+                    <div class="bg-light p-4 rounded-3 border mb-4">
+                        <h2 class="display-6 fw-bold text-dark mb-0" id="mensagem-gerada">{{ message }}</h2>
+                    </div>
+
+                    <div class="d-flex justify-content-center mb-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="pref-sem-pontuacao">
+                            <label class="form-check-label small text-muted fw-bold" for="pref-sem-pontuacao">
+                                COPIAR SEM PONTUAÇÃO
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="feedback" class="alert alert-success py-2 px-3 small mb-4 animate__animated animate__fadeIn" style="display:none;">
+                        <i class="bi bi-check-circle-fill me-2"></i> Conteúdo copiado!
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a href="/" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-arrow-left"></i> Voltar
+                        </a>
+                        
+                        <button type="button" class="btn btn-primary px-4" onclick="copiarMensagem()">
+                            <i class="bi bi-clipboard"></i> Copiar
+                        </button>
+
+                        <form method="post" action="/gerador" class="m-0">
+                            <input type="hidden" id="tipo" name="tipo" value="{{ type }}">
+                            <button type="submit" class="btn btn-success px-4 w-100">
+                                <i class="bi bi-arrow-clockwise"></i> Gerar Novo
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<script>
-function copiarMensagem() {
-    const texto = document.getElementById('mensagem-gerada').innerText;
-    navigator.clipboard.writeText(texto).then(function() {
-        const feedback = document.getElementById('feedback');
-        feedback.style.display = 'block';
-        setTimeout(() => feedback.style.display = 'none', 1500);
+
+    <script>
+    const switchPref = document.getElementById('pref-sem-pontuacao');
+    const feedback = document.getElementById('feedback');
+    const valorGerado = document.getElementById('mensagem-gerada');
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedPreference = localStorage.getItem('copyWithoutPunctuation') === 'true';
+        switchPref.checked = savedPreference;
     });
-}
-</script>
+
+    switchPref.addEventListener('change', () => {
+        localStorage.setItem('copyWithoutPunctuation', switchPref.checked);
+    });
+
+    function copiarMensagem() {
+        let texto = valorGerado.innerText;
+        
+        if (switchPref.checked) {
+            texto = texto.replace(/[^a-zA-Z0-9]/g, '');
+        }
+
+        navigator.clipboard.writeText(texto).then(() => {
+            feedback.innerHTML = switchPref.checked 
+                ? '<i class="bi bi-check-circle-fill me-2"></i> Copiado sem pontuação!' 
+                : '<i class="bi bi-check-circle-fill me-2"></i> Copiado com pontuação!';
+                
+            feedback.style.display = 'block';
+            
+            setTimeout(() => {
+                feedback.style.display = 'none';
+            }, 2000);
+        }).catch(err => {
+            console.error('Erro ao copiar: ', err);
+        });
+    }
+    </script>
 {% endblock %}

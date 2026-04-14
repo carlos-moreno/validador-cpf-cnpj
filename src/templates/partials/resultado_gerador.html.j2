@@ -2,7 +2,7 @@
     <div class="text-muted small mb-1">{{ tipo|upper }} Gerado:</div>
     <div class="d-flex align-items-center justify-content-between">
         <code class="fs-4 fw-bold text-dark" id="num-gerado">{{ valor }}</code>
-        <button class="btn btn-sm btn-outline-secondary" onclick="copyValue()">
+        <button class="btn btn-sm btn-outline-secondary" onclick="copyValue()" id="btn-copy-result">
             <i class="bi bi-clipboard"></i>
         </button>
     </div>
@@ -11,10 +11,18 @@
 
 <script>
 function copyValue() {
-    const text = document.getElementById('num-gerado').innerText;
-    navigator.clipboard.writeText(text);
-    const feedback = document.getElementById('copy-feedback');
-    feedback.style.display = 'block';
-    setTimeout(() => feedback.style.display = 'none', 2000);
+    let text = document.getElementById('num-gerado').innerText;
+    const switchEl = document.getElementById('pref-sem-pontuacao');
+    
+    if (switchEl && switchEl.checked) {
+        text = text.replace(/[^a-zA-Z0-9]/g, '');
+    }
+
+    navigator.clipboard.writeText(text).then(() => {
+        const feedback = document.getElementById('copy-feedback');
+        feedback.innerText = (switchEl && switchEl.checked) ? 'Copiado sem pontuação!' : 'Copiado!';
+        feedback.style.display = 'block';
+        setTimeout(() => feedback.style.display = 'none', 2000);
+    });
 }
 </script>

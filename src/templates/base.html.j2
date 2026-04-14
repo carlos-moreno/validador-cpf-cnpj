@@ -1,73 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador & Validador de CPF/CNPJ</title>
-    <!-- Bootstrap 5 & Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <!-- Google Fonts & Animate.css -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; color: #333; }
-        .navbar { background: white; border-bottom: 1px solid #eee; }
-        .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .btn-primary { border-radius: 8px; padding: 10px 20px; font-weight: 600; }
-        .form-control { border-radius: 8px; padding: 12px; }
-        .glass-panel { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg mb-5">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/">
-                <img src="{{ url_for('static', filename='img/validator-sm.png') }}" height="30" class="me-2">
-                <span class="fw-bold">Gerador & Validador <span class="text-primary">CPF/CNPJ</span></span>
-            </a>
-        </div>
-    </nav>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gerador & Validador de CPF/CNPJ</title>
+        <!-- Bootstrap 5 & Icons -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+        <!-- Google Fonts & Animate.css -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+        <style>
+            body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; color: #333; }
+            .navbar { background: white; border-bottom: 1px solid #eee; }
+            .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+            .btn-primary { border-radius: 8px; padding: 10px 20px; font-weight: 600; }
+            .form-control { border-radius: 8px; padding: 12px; }
+            .glass-panel { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg mb-5">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="/">
+                    <img src="{{ url_for('static', filename='img/validator-sm.png') }}" height="30" class="me-2">
+                    <span class="fw-bold">Gerador & Validador <span class="text-primary">CPF/CNPJ</span></span>
+                </a>
+            </div>
+        </nav>
 
-    <main class="container">
-        {% block content %}{% endblock %}
-    </main>
+        <main class="container">
+            {% block content %}{% endblock %}
+        </main>
 
-    
-    <footer class="footer mt-auto py-4 bg-light shadow-sm">
-        <div class="container text-center">
-            <div class="mb-1 fw-bold">Gerador & Validador de CPF/CNPJ</div>
-            <div class="text-muted">&copy; {{ now.year }} • Desenvolvido por <strong><em>Carlos Moreno</em></strong></div>
-        </div>
-    </footer>
+        
+        <footer class="footer mt-auto py-4 bg-light shadow-sm">
+            <div class="container text-center">
+                <div class="mb-1 fw-bold">Gerador & Validador de CPF/CNPJ</div>
+                <div class="text-muted">&copy; {{ now.year }} • Desenvolvido por <strong><em>Carlos Moreno</em></strong></div>
+            </div>
+        </footer>
 
-    <!-- Mask Input Script -->
-    <script src="https://unpkg.com/imask"></script>
-    <script>
-function applyMask() {
-    const element = document.getElementById('cpf_cnpj');
-    if (element) {
-        IMask(element, {
-            mask: [
-                {
-                    mask: '000.000.000-00',
-                },
-                {
-                    mask: 'aa.aaa.aaa/aaaa-00',
-                    definitions: {
-                        'a': /[0-9A-Z]/
-                    },
-                    prepare: function (str) {
-                        return str.toUpperCase();
-                    }
+        <!-- Mask Input Script -->
+        <script src="https://unpkg.com/imask"></script>
+        <script>
+            function applyMask() {
+                const element = document.getElementById('cpf_cnpj');
+                if (element) {
+                    IMask(element, {
+                        mask: [
+                            {
+                                mask: '000.000.000-00',
+                            },
+                            {
+                                mask: 'aa.aaa.aaa/aaaa-00',
+                                definitions: {
+                                    'a': /[0-9A-Z]/
+                                },
+                                prepare: function (str) {
+                                    return str.toUpperCase();
+                                }
+                            }
+                        ]
+                    });
                 }
-            ]
-        });
-    }
-}
-document.body.addEventListener('htmx:afterSwap', function(evt) { applyMask(); });
-window.onload = applyMask;
-</script>
-</body>
+            }
+            document.body.addEventListener('htmx:afterSwap', function(evt) { applyMask(); });
+            window.onload = applyMask;
+        </script>
+        <script>
+            function loadCopyPreference() {
+                const pref = localStorage.getItem('copyWithoutPunctuation') === 'true';
+                const sw = document.getElementById('pref-sem-pontuacao');
+                if (sw) sw.checked = pref;
+            }
+
+            function saveCopyPreference(checked) {
+                localStorage.setItem('copyWithoutPunctuation', checked);
+            }
+
+            window.addEventListener('load', loadCopyPreference);
+            document.body.addEventListener('htmx:afterSwap', loadCopyPreference);
+        </script>
+    </body>
 </html>
