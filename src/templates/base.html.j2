@@ -1,87 +1,310 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Gerador & Validador de CPF/CNPJ</title>
-        <!-- Bootstrap 5 & Icons -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-        <!-- Google Fonts & Animate.css -->
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-        <script src="https://unpkg.com/htmx.org@1.9.6"></script>
-        <style>
-            body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; color: #333; }
-            .navbar { background: white; border-bottom: 1px solid #eee; }
-            .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-            .btn-primary { border-radius: 8px; padding: 10px 20px; font-weight: 600; }
-            .form-control { border-radius: 8px; padding: 12px; }
-            .glass-panel { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
-        </style>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg mb-5">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="/">
-                    <img src="{{ url_for('static', filename='img/validator-sm.png') }}" height="30" class="me-2">
-                    <span class="fw-bold">Gerador & Validador <span class="text-primary">CPF/CNPJ</span></span>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <title>Moreno Tools | Ferramentas Online Gratuitas</title>
+
+    <meta name="description"
+        content="Coleção de ferramentas online gratuitas para desenvolvedores e usuários. CPF, CNPJ, UUID, JWT, Base64, Hash, QR Code, CEP e muito mais.">
+
+    <meta name="author" content="Carlos Moreno">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #f8f9fa;
+            color: #333;
+
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        /* Navbar */
+
+        .navbar {
+            background: #fff;
+            border-bottom: 1px solid #ececec;
+        }
+
+        .navbar-brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            transition: color .2s ease;
+        }
+
+        /* Cards */
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, .85);
+            backdrop-filter: blur(12px);
+        }
+
+        /* Formulários */
+
+        .btn-primary {
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        /* Footer */
+
+        footer {
+            background: #fff;
+            border-top: 1px solid #ececec;
+        }
+
+        .footer-links a,
+        .author-link {
+            color: #6c757d;
+            text-decoration: none;
+            transition: color .2s ease;
+        }
+
+        .footer-links a:hover,
+        .author-link:hover {
+            color: #0d6efd;
+        }
+
+        .author-link {
+            font-weight: 600;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+
+        <div class="container">
+
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <i class="bi bi-tools fs-4 text-primary me-2"></i>
+
+                <span>
+                    Moreno <span class="text-primary">Tools</span>
+                </span>
+            </a>
+
+            <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbar">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbar">
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">
+                            <i class="bi bi-house-door me-1"></i>
+                            Início
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                            href="https://camoreno.net"
+                            target="_blank"
+                            rel="noopener noreferrer">
+
+                            <i class="bi bi-globe me-1"></i>
+
+                            camoreno.net
+
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <main class="container py-4">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+    <footer class="py-4">
+
+        <div class="container text-center">
+
+            <div class="fw-bold fs-5 mb-2">
+
+                <i class="bi bi-tools text-primary me-1"></i>
+
+                Moreno <span class="text-primary">Tools</span>
+
+            </div>
+
+            <p class="text-muted mb-3">
+
+                Ferramentas online gratuitas para desenvolvedores,
+                empresas e usuários.
+
+            </p>
+
+            <div class="footer-links mb-3">
+
+                <a href="/">
+                    Início
                 </a>
+
+                <span class="mx-2 text-muted">•</span>
+
+                <a href="https://camoreno.net"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    camoreno.net
+
+                </a>
+
             </div>
-        </nav>
 
-        <main class="container">
-            {% block content %}{% endblock %}
-        </main>
+            <div class="text-muted small">
 
-        
-        <footer class="footer mt-auto py-4 bg-light shadow-sm">
-            <div class="container text-center">
-                <div class="mb-1 fw-bold">Gerador & Validador de CPF/CNPJ</div>
-                <div class="text-muted">&copy; {{ now.year }} • Desenvolvido por <strong><em>Carlos Moreno</em></strong></div>
+                &copy; {{ now.year }}
+
+                • Desenvolvido por
+
+                <a href="https://camoreno.net"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="author-link">
+
+                    Carlos Moreno
+
+                </a>
+
             </div>
-        </footer>
 
-        <!-- Mask Input Script -->
-        <script src="https://unpkg.com/imask"></script>
-        <script>
-            function applyMask() {
-                const element = document.getElementById('cpf_cnpj');
-                if (element) {
-                    IMask(element, {
-                        mask: [
-                            {
-                                mask: '000.000.000-00',
-                            },
-                            {
-                                mask: 'aa.aaa.aaa/aaaa-00',
-                                definitions: {
-                                    'a': /[0-9A-Z]/
-                                },
-                                prepare: function (str) {
-                                    return str.toUpperCase();
-                                }
-                            }
-                        ]
-                    });
-                }
-            }
-            document.body.addEventListener('htmx:afterSwap', function(evt) { applyMask(); });
-            window.onload = applyMask;
-        </script>
-        <script>
-            function loadCopyPreference() {
-                const pref = localStorage.getItem('copyWithoutPunctuation') === 'true';
-                const sw = document.getElementById('pref-sem-pontuacao');
-                if (sw) sw.checked = pref;
+        </div>
+
+    </footer>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- IMask -->
+    <script src="https://unpkg.com/imask"></script>
+
+    <script>
+
+        function applyMask() {
+
+            const element = document.getElementById("cpf_cnpj");
+
+            if (!element) return;
+
+            IMask(element, {
+                mask: [
+                    {
+                        mask: "000.000.000-00"
+                    },
+                    {
+                        mask: "aa.aaa.aaa/aaaa-00",
+                        definitions: {
+                            a: /[0-9A-Z]/
+                        },
+                        prepare: (str) => str.toUpperCase()
+                    }
+                ]
+            });
+
+        }
+
+        document.body.addEventListener("htmx:afterSwap", applyMask);
+
+        window.onload = applyMask;
+
+    </script>
+
+    <script>
+
+        function loadCopyPreference() {
+
+            const pref = localStorage.getItem("copyWithoutPunctuation") === "true";
+
+            const sw = document.getElementById("pref-sem-pontuacao");
+
+            if (sw) {
+                sw.checked = pref;
             }
 
-            function saveCopyPreference(checked) {
-                localStorage.setItem('copyWithoutPunctuation', checked);
-            }
+        }
 
-            window.addEventListener('load', loadCopyPreference);
-            document.body.addEventListener('htmx:afterSwap', loadCopyPreference);
-        </script>
-    </body>
+        function saveCopyPreference(checked) {
+
+            localStorage.setItem("copyWithoutPunctuation", checked);
+
+        }
+
+        window.addEventListener("load", loadCopyPreference);
+
+        document.body.addEventListener("htmx:afterSwap", loadCopyPreference);
+
+    </script>
+
+</body>
+
 </html>
